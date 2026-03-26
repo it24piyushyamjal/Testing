@@ -232,7 +232,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 @keyframes tagPop{to{opacity:1;transform:scale(1);}}
 
 /* ── S7: LOCKED GIFT ── */
-#s7{text-align:center;max-width:400px;width:100%;margin:0 auto;}
+#s7{text-align:center;max-width:400px;width:100%;margin:0 auto;justify-content:flex-start;padding-top:2rem;}
 .lock-scene{margin-bottom:1.5rem;}
 .env-wrap{
   width:140px;height:100px;margin:0 auto;position:relative;cursor:pointer;
@@ -279,6 +279,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .locked-msg p.hand{font-family:var(--hand);font-size:1.1rem;color:var(--ink);}
 .locked-msg .sig{font-family:var(--hand);font-size:1rem;color:var(--purple2);text-align:right;margin-top:.8rem;}
 .chibi-sit{font-size:1.8rem;text-align:center;margin-bottom:.8rem;}
+
+/* ── S7: LINE-BY-LINE REVEAL ── */
+.lmsg-line{font-size:.9rem;line-height:1.8;color:var(--dim);margin-bottom:.2rem;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;}
+.lmsg-line.hand{font-family:var(--hand);font-size:1.05rem;color:var(--ink);}
+.lmsg-line.in{opacity:1;transform:none;}
+.lmsg-sig{font-family:var(--hand);font-size:1rem;color:var(--purple2);text-align:right;margin-top:.8rem;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;}
+.lmsg-sig.in{opacity:1;transform:none;}
+
+/* ── S2: TRANSITION MESSAGE ── */
+.inv-trans{font-family:var(--hand);font-size:1.3rem;color:var(--purple2);margin-top:1.2rem;opacity:0;transition:opacity .5s ease;text-align:center;min-height:2rem;}
+.inv-trans.on{opacity:1;}
 
 /* ── S8: FINALE ── */
 #s8{text-align:center;max-width:380px;width:100%;margin:0 auto;}
@@ -370,9 +381,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   </div>
   <div class="inv-q" id="invQ" style="opacity:0;margin-bottom:1rem;">Do you know who this is?</div>
   <div class="inv-choices" id="invChoices" style="opacity:0;transition:opacity .4s ease;">
-    <button class="inv-btn" onclick="go(3)">I think so… 👀</button>
-    <button class="inv-btn" onclick="go(3)">Genuinely no idea 💀</button>
+    <button class="inv-btn" onclick="invChoiceClick()">I think so… 👀</button>
+    <button class="inv-btn" onclick="invChoiceClick()">Genuinely no idea 💀</button>
   </div>
+  <div class="inv-trans" id="invTransMsg">You'll find out. Keep going. →</div>
 </div>
 
 <!-- ════════════════════════════════════
@@ -396,7 +408,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
      S4: THE CHALLENGE
 ════════════════════════════════════ -->
 <div class="scr" id="s4">
-  <div class="quiz-eye">🎁 unlock your gift</div>
+  <div class="quiz-eye">You don't get the good stuff for free.</div>
   <h2 class="quiz-head">Answer correctly.</h2>
   <p class="quiz-sub">Or face consequences. 😤</p>
   <div class="prog-track"><div class="prog-fill" id="pFill" style="width:0%"></div></div>
@@ -422,32 +434,48 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
       <div class="tl-dot"></div>
       <div class="tl-label">The beginning</div>
       <div class="tl-text">
-        <span class="hand-note">The braces era. The constant teasing. The random chaos.</span>
-        I used to tease you all the time and thought it was just normal sibling stuff. I didn't realise those little moments would end up meaning this much later.
+        I used to tease you all the time.<br>
+        Especially about your braces… yeah, I'm not even going to deny it 😭<br>
+        Back then it was just constant chaos —<br>
+        random fights, stupid teasing, and me being unnecessarily annoying.<br>
+        I thought it was just normal.<br>
+        I didn't realise those little moments would end up meaning this much later.
       </div>
     </div>
     <div class="tl-item" id="tl1">
       <div class="tl-dot"></div>
       <div class="tl-label">The embarrassing era</div>
       <div class="tl-text">
-        <span class="hand-note">A continuous series of dumb moments. Mostly my fault.</span>
-        We didn't think much of it then. But now those random, pointless memories are the ones that stick the most.
+        Honestly… we don't even have one single "embarrassing phase" —<br>
+        it was just a continuous series of dumb moments 😭<br>
+        And somehow, most of them were my fault.<br>
+        We didn't think much of it then…<br>
+        but now those random, pointless memories are the ones that stick the most.
       </div>
     </div>
     <div class="tl-item" id="tl2">
       <div class="tl-dot"></div>
       <div class="tl-label">The shift</div>
       <div class="tl-text">
-        <span class="hand-note">After 11th. New school. A quiet gap.</span>
-        Less talking. Less meeting. It wasn't sudden — just quiet. And something about that distance felt weird in a way I didn't expect.
+        Things changed after 11th.<br>
+        New school, different routines… and slowly, a gap.<br>
+        Less talking. Less meeting.<br>
+        It wasn't sudden — just… quiet.<br>
+        And I didn't realise it at first,<br>
+        but something about that distance felt weird.
       </div>
     </div>
     <div class="tl-item" id="tl3">
       <div class="tl-dot"></div>
       <div class="tl-label">Right now</div>
       <div class="tl-text">
-        <span class="hand-note">Different. Not worse. Just different.</span>
-        Life got busy, things changed. But you still find time to call. Not every day like before — but you still do. And I don't say it, but… that actually means a lot.
+        Now it's different.<br>
+        Not like before — but not worse either. Just… different.<br>
+        Life got busy, things changed…<br>
+        but somehow, you still find time to call.<br>
+        Maybe not every day like before —<br>
+        but you still do.<br>
+        And I don't say it, but… that actually means a lot.
       </div>
     </div>
   </div>
@@ -466,8 +494,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
     <!-- Bird SVG -->
     <svg id="bird" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:50px;right:-60px;width:36px;height:28px;">
       <ellipse cx="18" cy="16" rx="10" ry="7" fill="#c4b5fd"/>
-      <ellipse cx="10" cy="14" rx="6" ry="4" fill="#a78bfa"/>
-      <ellipse cx="26" cy="14" rx="6" ry="4" fill="#a78bfa"/>
+      <g id="birdWingL"><ellipse cx="10" cy="14" rx="6" ry="4" fill="#a78bfa"/></g>
+      <g id="birdWingR"><ellipse cx="26" cy="14" rx="6" ry="4" fill="#a78bfa"/></g>
       <circle cx="18" cy="10" r="5" fill="#ede8ff"/>
       <circle cx="20" cy="9" r="1.5" fill="#07060f"/>
       <path d="M18 14 L15 17 L21 17 Z" fill="#fbbf24"/>
@@ -492,6 +520,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
       <!-- shoes -->
       <ellipse cx="25" cy="74" rx="7" ry="4" fill="#7c3aed"/>
       <ellipse cx="39" cy="74" rx="7" ry="4" fill="#7c3aed"/>
+      <!-- head + hair + eyes + blush + smile grouped for nod animation -->
+      <g id="chibiHead">
       <!-- head -->
       <circle cx="32" cy="26" r="18" fill="#ede8ff"/>
       <!-- hair -->
@@ -508,6 +538,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
       <ellipse cx="44" cy="32" rx="4" ry="2.5" fill="#f472b6" opacity=".4"/>
       <!-- smile -->
       <path d="M26 34 Q32 39 38 34" stroke="#f472b6" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </g>
       <!-- letter prop (hidden initially) -->
       <g id="letterInHand" opacity="0">
         <rect x="36" y="34" width="22" height="16" rx="2" fill="#ede8ff" stroke="#a78bfa" stroke-width=".8"/>
@@ -582,15 +613,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 
   <div class="locked-msg" id="lockedMsg">
     <div class="chibi-sit">🧣</div>
-    <p class="hand">This one's just between us.</p>
-    <p>I don't think I say this enough.<br>Or maybe I just never say it properly.</p>
-    <p>But you've always been there —<br>in ways that are easy to miss,<br>and impossible to replace.</p>
-    <p>Through the normal days, the bad moods,<br>the random conversations that somehow matter more later…<br>you've been a constant.</p>
-    <p>You make things lighter.<br>Even when you don't try.</p>
-    <p class="hand" style="margin-top:.6rem;">I hope this year is kind to you.<br>I hope it surprises you in the best ways.<br>And I hope you get more of the things<br>that make you genuinely happy.</p>
-    <p>And no matter what changes —</p>
-    <p class="hand">this doesn't. 🖤</p>
-    <div class="sig">— Bickyy</div>
+    <div class="lmsg-line hand" id="lm0">This one's just between us.</div>
+    <div class="lmsg-line" id="lm1">I don't think I say this enough.</div>
+    <div class="lmsg-line" id="lm2">Or maybe I just never say it properly.</div>
+    <div class="lmsg-line" id="lm3">But you've always been there —</div>
+    <div class="lmsg-line" id="lm4">in ways that are easy to miss,</div>
+    <div class="lmsg-line" id="lm5">and impossible to replace.</div>
+    <div class="lmsg-line" id="lm6">Through the normal days, the bad moods,</div>
+    <div class="lmsg-line" id="lm7">the random conversations that somehow matter more later…</div>
+    <div class="lmsg-line" id="lm8">you've been a constant.</div>
+    <div class="lmsg-line" id="lm9">And I don't think I realise how much that means</div>
+    <div class="lmsg-line" id="lm10">until I stop and actually think about it.</div>
+    <div class="lmsg-line" id="lm11">You make things lighter.</div>
+    <div class="lmsg-line" id="lm12">Even when you don't try.</div>
+    <div class="lmsg-line" id="lm13">So yeah…</div>
+    <div class="lmsg-line" id="lm14">I hope this year is kind to you.</div>
+    <div class="lmsg-line" id="lm15">I hope it surprises you in the best ways.</div>
+    <div class="lmsg-line" id="lm16">And I hope you get more of the things</div>
+    <div class="lmsg-line" id="lm17">that make you genuinely happy.</div>
+    <div class="lmsg-line" id="lm18">And no matter what changes —</div>
+    <div class="lmsg-line hand" id="lm19">this doesn't. 🖤</div>
+    <div class="lmsg-sig" id="lmSig">— Bickyy</div>
   </div>
   <button class="pill sm hidden mt15" id="finalBtn" onclick="go(8)">okay one more thing 🎁</button>
 </div>
@@ -606,10 +649,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   <div class="finale-name">Anushka 🎂</div>
   <div class="finale-menace">you absolute menace 😤💖</div>
   <div class="finale-tags">
-    <div class="ftag" style="--dl:.8s">🏆 Another Year Older</div>
+    <div class="ftag" style="--dl:.8s">🏆 Officially Another Year Older</div>
     <div class="ftag" style="--dl:1s">😤 Still Annoying</div>
-    <div class="ftag" style="--dl:1.2s">💖 Always My Favourite</div>
-    <div class="ftag" style="--dl:1.4s">🖤 Always</div>
+    <div class="ftag" style="--dl:1.2s">💖 Still My Favourite</div>
   </div>
   <div class="chibi-dance">🥳</div>
 </div>
@@ -648,6 +690,14 @@ function go(n){
   });
   setTimeout(()=>document.getElementById('s1btn').classList.add('vis'), 3800);
 })();
+
+/* ── S2: INVESTIGATION CHOICE ── */
+function invChoiceClick(){
+  document.querySelectorAll('.inv-btn').forEach(b=>b.disabled=true);
+  const tm = document.getElementById('invTransMsg');
+  if(tm){ tm.classList.add('on'); }
+  setTimeout(()=>go(3), 1600);
+}
 
 /* ── S2: INVESTIGATION ── */
 screenInits[2] = function(){
@@ -788,82 +838,176 @@ function runChibiScene(){
   const sparkles = document.getElementById('sparkles');
   const letterInHand = document.getElementById('letterInHand');
 
-  // chibi walks in
-  chibi.style.transition='left 1.8s cubic-bezier(.22,1,.36,1)';
-  setTimeout(()=>{ chibi.style.left='calc(50% - 80px)'; }, 200);
+  let legToggle = false;
+  let legAnim = null;
+  let birdWingToggle = false;
+  let birdWingAnim = null;
+  let chibiIdleRAF = null;
 
-  // leg walk animation while walking
-  let legToggle=false;
-  const legAnim = setInterval(()=>{
-    const legL = document.getElementById('legL');
-    const legR = document.getElementById('legR');
-    if(legToggle){
-      legL.setAttribute('transform','translate(0,-4)');
-      legR.setAttribute('transform','translate(0,0)');
-    } else {
-      legL.setAttribute('transform','translate(0,0)');
-      legR.setAttribute('transform','translate(0,-4)');
+  /* Rotate an SVG element around a given pivot point */
+  function rotateSVG(id, angle, px, py){
+    const el = document.getElementById(id);
+    if(el) el.setAttribute('transform',
+      `translate(${px},${py}) rotate(${angle}) translate(${-px},${-py})`);
+  }
+
+  /* Continuous idle: vertical bob (±5px / 1s) + breathing (scaleY ±2% / 2s) + head nod (±2° / 3s) */
+  function startIdle(){
+    if(chibiIdleRAF) cancelAnimationFrame(chibiIdleRAF);
+    const t0 = performance.now();
+    function tick(ts){
+      const t = (ts - t0) / 1000;
+      const bob     = -5  * Math.sin(t * 2 * Math.PI);          // 1s period
+      const breatheY = 1 + 0.02 * Math.sin(t * Math.PI);        // 2s period
+      const nod      = 2  * Math.sin(t * 2 * Math.PI / 3);      // 3s period
+      chibi.style.transform       = `translateY(${bob}px) scaleY(${breatheY})`;
+      chibi.style.transformOrigin = 'center bottom';
+      const head = document.getElementById('chibiHead');
+      if(head) head.setAttribute('transform',
+        `translate(32,38) rotate(${nod}) translate(-32,-38)`);
+      chibiIdleRAF = requestAnimationFrame(tick);
     }
-    legToggle=!legToggle;
-  },200);
+    chibiIdleRAF = requestAnimationFrame(tick);
+  }
 
-  // bird flies in
+  function stopIdle(){
+    if(chibiIdleRAF){ cancelAnimationFrame(chibiIdleRAF); chibiIdleRAF = null; }
+    chibi.style.transform = '';
+    chibi.style.transformOrigin = '';
+    const head = document.getElementById('chibiHead');
+    if(head) head.removeAttribute('transform');
+  }
+
+  /* Bird wing flap: ±15° every 0.2s */
+  function startBirdFlap(){
+    stopBirdFlap();
+    birdWingAnim = setInterval(()=>{
+      const a = birdWingToggle ? -15 : 15;
+      const bwL = document.getElementById('birdWingL');
+      const bwR = document.getElementById('birdWingR');
+      if(bwL) bwL.setAttribute('transform', `translate(18,14) rotate(${a}) translate(-18,-14)`);
+      if(bwR) bwR.setAttribute('transform', `translate(18,14) rotate(${-a}) translate(-18,-14)`);
+      birdWingToggle = !birdWingToggle;
+    }, 200);
+  }
+  function stopBirdFlap(){
+    if(birdWingAnim){ clearInterval(birdWingAnim); birdWingAnim = null; }
+    const bwL = document.getElementById('birdWingL');
+    const bwR = document.getElementById('birdWingR');
+    if(bwL) bwL.removeAttribute('transform');
+    if(bwR) bwR.removeAttribute('transform');
+  }
+
+  /* ── START ── */
+  chibi.style.left    = '-80px';
+  chibi.style.opacity = '0';
+
+  // Bird starts flapping immediately
+  startBirdFlap();
+
+  // 200ms: chibi walks in (easeOutQuad ≈ cubic-bezier(.25,.46,.45,.94))
   setTimeout(()=>{
-    bird.style.transition='right 1.4s cubic-bezier(.22,1,.36,1), top .6s ease';
-    bird.style.right='calc(50% - 50px)';
-    bird.style.top='45px';
+    chibi.style.opacity    = '1';
+    chibi.style.transition = 'left 1.5s cubic-bezier(.25,.46,.45,.94), opacity .3s ease';
+    chibi.style.left       = 'calc(50% - 80px)';
+
+    // Leg rotation walk: alternating ±5° every 0.3s
+    legAnim = setInterval(()=>{
+      if(legToggle){
+        rotateSVG('legL', -5, 25, 62);
+        rotateSVG('legR',  5, 39, 62);
+      } else {
+        rotateSVG('legL',  5, 25, 62);
+        rotateSVG('legR', -5, 39, 62);
+      }
+      legToggle = !legToggle;
+    }, 300);
+
+    // Vertical bob + breathing starts immediately (runs during walk too)
+    startIdle();
+  }, 200);
+
+  // 600ms: bird flies in from right
+  setTimeout(()=>{
+    bird.style.transition = 'right 1.2s cubic-bezier(.22,1,.36,1), top .6s ease';
+    bird.style.right      = 'calc(50% - 50px)';
+    bird.style.top        = '45px';
   }, 600);
 
-  // stop walking
+  // 2000ms: stop walking, keep idle
   setTimeout(()=>{
     clearInterval(legAnim);
-    document.getElementById('legL').removeAttribute('transform');
-    document.getElementById('legR').removeAttribute('transform');
+    const legL = document.getElementById('legL');
+    const legR = document.getElementById('legR');
+    if(legL) legL.removeAttribute('transform');
+    if(legR) legR.removeAttribute('transform');
   }, 2000);
 
-  // chibi takes letter — bird hops and flies away
+  // 2600ms: chibi takes letter — bird stops flapping and flies away
   setTimeout(()=>{
-    letterInHand.style.transition='opacity .3s ease';
-    letterInHand.style.opacity='1';
-    // bird flies away
-    bird.style.transition='right .8s ease, top .6s ease, opacity .5s ease';
-    bird.style.right='-80px';
-    bird.style.top='20px';
-    bird.style.opacity='0';
+    letterInHand.style.transition = 'opacity .3s ease';
+    letterInHand.style.opacity    = '1';
+
+    stopBirdFlap();
+    bird.style.transition = 'right .8s ease, top .6s ease, opacity .5s ease';
+    bird.style.right      = '-80px';
+    bird.style.top        = '20px';
+    bird.style.opacity    = '0';
+
+    // Grab reaction: lift + scale 1.05 for 0.3s
+    stopIdle();
+    chibi.style.transition       = 'transform .3s ease';
+    chibi.style.transform        = 'scale(1.05) translateY(-3px)';
+    chibi.style.transformOrigin  = 'center bottom';
+    setTimeout(()=>{
+      chibi.style.transform = '';
+      chibi.style.transition = '';
+      startIdle();
+    }, 300);
   }, 2600);
 
-  // chibi "reads" — bobs gently
+  // 3200ms: chibi "reads" — gentle tilt back and forth
   setTimeout(()=>{
-    chibi.style.transition='transform .4s ease';
-    chibi.style.transform='rotate(-3deg)';
+    stopIdle();
+    chibi.style.transition = 'transform .4s ease';
+    chibi.style.transform  = 'rotate(-3deg)';
     setTimeout(()=>{
-      chibi.style.transform='rotate(3deg)';
-      setTimeout(()=>{ chibi.style.transform='none'; }, 400);
+      chibi.style.transform = 'rotate(3deg)';
+      setTimeout(()=>{
+        chibi.style.transform  = '';
+        chibi.style.transition = '';
+        startIdle();
+      }, 400);
     }, 400);
   }, 3200);
 
-  // reveal letter lines
+  // Reveal letter lines one by one
   const letterLineIds = ['ll0','ll1','ll2','ll3','ll4','ll5','ll6','ll7','ll8','ll9','ll10'];
   letterLineIds.forEach((id,i)=>{
-    setTimeout(()=>{
-      document.getElementById(id).classList.add('in');
-    }, 3800 + i*500);
+    setTimeout(()=>{ document.getElementById(id).classList.add('in'); }, 3800 + i*500);
   });
 
-  // chibi holds letter to chest, sparkles
+  // After last line: letter disappears, sparkles, chibi reacts
+  const afterLines = 3800 + letterLineIds.length*500;
   setTimeout(()=>{
-    letterInHand.style.opacity='0';
-    sparkles.style.opacity='1';
-    chibi.style.transition='transform .5s ease';
-    chibi.style.transform='scale(1.05)';
-    setTimeout(()=>chibi.style.transform='none',500);
-  }, 3800 + letterLineIds.length*500 + 200);
+    letterInHand.style.opacity = '0';
+    sparkles.style.opacity     = '1';
+    stopIdle();
+    chibi.style.transition      = 'transform .5s ease';
+    chibi.style.transform       = 'scale(1.05)';
+    chibi.style.transformOrigin = 'center bottom';
+    setTimeout(()=>{
+      chibi.style.transform  = '';
+      chibi.style.transition = '';
+      startIdle();
+    }, 500);
+  }, afterLines + 200);
 
-  // show sparkle wrap + button
+  // Show sparkle wrap + button
   setTimeout(()=>{
     document.getElementById('spkWrap').classList.add('in');
     document.getElementById('letterBtn').classList.remove('hidden');
-  }, 3800 + letterLineIds.length*500 + 800);
+  }, afterLines + 800);
 }
 
 /* ── CHAOS ── */
@@ -878,12 +1022,12 @@ function triggerChaos(){
 let envOpened = false;
 function openEnvelope(){
   if(envOpened) return;
-  // shake first tap
+  // First tap: shake ±5px, 3 rapid cycles
   const wrap = document.getElementById('envWrap');
   wrap.style.animation='shake .4s ease';
   setTimeout(()=>{
     wrap.style.animation='';
-    // second tap opens
+    // Second tap opens
     wrap.onclick = ()=>{
       if(envOpened) return;
       envOpened = true;
@@ -891,9 +1035,20 @@ function openEnvelope(){
       document.getElementById('lockHint').style.opacity='0';
       setTimeout(()=>{
         document.getElementById('lockedMsg').classList.add('open');
+        // Line-by-line reveal: 20 lines + signature
+        const lineIds = ['lm0','lm1','lm2','lm3','lm4','lm5','lm6','lm7',
+          'lm8','lm9','lm10','lm11','lm12','lm13','lm14','lm15','lm16',
+          'lm17','lm18','lm19','lmSig'];
+        lineIds.forEach((id,i)=>{
+          setTimeout(()=>{
+            const el = document.getElementById(id);
+            if(el) el.classList.add('in');
+          }, i * 280);
+        });
+        // Show continue button after all lines
         setTimeout(()=>{
           document.getElementById('finalBtn').classList.remove('hidden');
-        }, 1500);
+        }, lineIds.length * 280 + 400);
       }, 700);
     };
   }, 500);
@@ -905,9 +1060,12 @@ document.head.appendChild(shakeStyle);
 
 /* ── S8: FINALE ── */
 screenInits[8] = function(){
+  // Initial burst
   fireConfetti(null, null, 250);
   setTimeout(()=>fireConfetti(null,null,200), 600);
   setTimeout(()=>fireConfetti(null,null,150), 1400);
+  // Continuous confetti: keep spawning indefinitely
+  setInterval(()=>fireConfetti(null,null,80), 2500);
 };
 
 /* ── CONFETTI ── */
