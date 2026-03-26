@@ -492,7 +492,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   <!-- CHIBI STAGE -->
   <div class="chibi-stage" id="chibiStage">
     <!-- Bird SVG -->
-    <svg id="bird" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:50px;right:-60px;width:36px;height:28px;">
+    <svg id="bird" viewBox="0 0 36 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="18" cy="16" rx="10" ry="7" fill="#c4b5fd"/>
       <g id="birdWingL"><ellipse cx="10" cy="14" rx="6" ry="4" fill="#a78bfa"/></g>
       <g id="birdWingR"><ellipse cx="26" cy="14" rx="6" ry="4" fill="#a78bfa"/></g>
@@ -505,7 +505,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
       <line x1="15" y1="21" x2="19" y2="21" stroke="#a78bfa" stroke-width=".5"/>
     </svg>
     <!-- Chibi SVG -->
-    <svg id="chibi" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:31px;left:-80px;width:64px;height:80px;">
+    <svg id="chibi" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- scarf -->
       <path d="M22 38 Q32 34 42 38 Q38 44 26 43 Z" fill="#f472b6" opacity=".9"/>
       <path d="M40 38 Q44 40 46 46 Q42 44 38 43 Z" fill="#ec4899" opacity=".9"/>
@@ -669,7 +669,10 @@ for(let i=0;i<30;i++){
 /* ── SCREEN TRANSITIONS ── */
 let cur = 1;
 const screenInits = {};
+let s8ConfettiInterval = null; // S8 continuous confetti handle
 function go(n){
+  // Clear S8 continuous confetti when leaving screen 8
+  if(cur === 8 && s8ConfettiInterval){ clearInterval(s8ConfettiInterval); s8ConfettiInterval = null; }
   const prev = document.getElementById('s'+cur);
   prev.classList.remove('on');
   prev.classList.add('out');
@@ -852,14 +855,17 @@ function runChibiScene(){
   }
 
   /* Continuous idle: vertical bob (±5px / 1s) + breathing (scaleY ±2% / 2s) + head nod (±2° / 3s) */
+  const BOB_AMPLITUDE   = 5;   // px, vertical bob range
+  const BREATHE_SCALE   = 0.02; // scaleY delta (0.98 → 1.02)
+  const NOD_AMPLITUDE   = 2;   // degrees, head rotation range
   function startIdle(){
     if(chibiIdleRAF) cancelAnimationFrame(chibiIdleRAF);
     const t0 = performance.now();
     function tick(ts){
       const t = (ts - t0) / 1000;
-      const bob     = -5  * Math.sin(t * 2 * Math.PI);          // 1s period
-      const breatheY = 1 + 0.02 * Math.sin(t * Math.PI);        // 2s period
-      const nod      = 2  * Math.sin(t * 2 * Math.PI / 3);      // 3s period
+      const bob      = -BOB_AMPLITUDE  * Math.sin(t * 2 * Math.PI);      // 1s period
+      const breatheY = 1 + BREATHE_SCALE * Math.sin(t * Math.PI);        // 2s period
+      const nod      =  NOD_AMPLITUDE  * Math.sin(t * 2 * Math.PI / 3);  // 3s period
       chibi.style.transform       = `translateY(${bob}px) scaleY(${breatheY})`;
       chibi.style.transformOrigin = 'center bottom';
       const head = document.getElementById('chibiHead');
@@ -1064,8 +1070,8 @@ screenInits[8] = function(){
   fireConfetti(null, null, 250);
   setTimeout(()=>fireConfetti(null,null,200), 600);
   setTimeout(()=>fireConfetti(null,null,150), 1400);
-  // Continuous confetti: keep spawning indefinitely
-  setInterval(()=>fireConfetti(null,null,80), 2500);
+  // Continuous confetti: keep spawning indefinitely on screen 8
+  s8ConfettiInterval = setInterval(()=>fireConfetti(null,null,80), 2500);
 };
 
 /* ── CONFETTI ── */
