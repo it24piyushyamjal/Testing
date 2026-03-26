@@ -1,25 +1,18 @@
-# 🎂 Birthday Surprise for Anushka
+# 🖤 Birthday Surprise for Anushka
 
-A cinematic, story-driven interactive birthday website built with pure **HTML, CSS, and JavaScript** — no frameworks, no page reloads.
+A cinematic, story-driven interactive birthday website built with pure **HTML, CSS, and JavaScript** — no frameworks, no page reloads. Everything lives in a single self-contained `index.html`.
 
 ---
 
 ## 🚀 How to Run
 
-No build step needed. Just open `index.html` in any browser:
+No build step needed. Just open `index.html` in any modern browser:
 
 ```
 Double-click index.html
 ```
 
-Or serve it locally with Python:
-
-```bash
-python3 -m http.server 8080
-# then open http://localhost:8080 in your browser
-```
-
-It works best on a **mobile screen** (or resize your browser to ~400px wide).
+It works best on a **mobile screen** (or resize your browser to ~420px wide).
 
 ---
 
@@ -27,56 +20,76 @@ It works best on a **mobile screen** (or resize your browser to ~400px wide).
 
 | File | What it does |
 |------|--------------|
-| `index.html` | All 8 screen sections of the SPA |
-| `style.css` | All styles — mobile-first, dark theme |
-| `script.js` | All logic — typing effect, transitions, quiz, confetti |
+| `index.html` | The complete site — all HTML, CSS, and JS inlined |
+| `style.css` | *(legacy — styles are now inlined in index.html)* |
+| `script.js` | *(legacy — scripts are now inlined in index.html)* |
 
 ---
 
 ## 🎬 The 8 Screens
 
-1. **Mystery Screen** — Black screen, text types in line by line, arrow appears to continue
-2. **Investigation** — "Case File #2026", 3 clue cards appear one by one
-3. **Confession** — Reveals it's from Bickyy 🕵️
-4. **Quiz** — 2 fun questions about Anushka with instant feedback
-5. **Timeline** — Memory cards from 2015, 2017, 2021 animate in
-6. **Letter** — Personal letter from Bickyy 💖
-7. **Locked Gift** — Tap the envelope to unlock
-8. **Final** — Confetti 🎉 + "Happy Birthday Anushka!"
+| # | Screen | Highlights |
+|---|--------|-----------|
+| 1 | **Mystery** | Lines fade in one-by-one with a blinking cursor |
+| 2 | **Investigation** | Case File #001 — 3 clue cards slide in, then a choice appears |
+| 3 | **Confession** | Bickyy reveals himself, lines stagger in dramatically |
+| 4 | **Challenge / Quiz** | 3 questions with progress bar; wrong answers make you retry |
+| 5 | **Timeline** | 4 memory cards animate in from the left along a glowing line |
+| 6 | **Letter + Chibi** | Animated chibi character walks in, receives letter from bird, reads it |
+| 7 | **Locked Gift** | Tap the envelope twice to open; a heartfelt note appears |
+| 8 | **Finale** | Canvas confetti burst + "Happy Birthday Anushka 🎂" |
 
 ---
 
 ## ✏️ How to Customize
 
-All the content you'd want to change is at the **top of `script.js`**:
+Open `index.html` and find these sections:
 
+### Typed mystery lines (Screen 1)
 ```js
-// The 3 lines that type out on Screen 1
-const mysteryLines = [
-  "Welcome, detective.",
-  "We have a special case only you can solve.",
-  "Are you ready... Anushka?"
-];
-
-// Quiz questions (change questions, options, and the correct answer index)
-const quizQuestions = [ ... ];
-
-// Timeline memories (add/remove/edit)
-const memories = [ ... ];
+// in initS1()
+const delays = [800, 1400, 1900, 2400, 3000];
+// Edit the text in the HTML: <div class="mline" id="ml0">…</div>
 ```
 
-Animation timing is also easy to tune at the very top of the file:
-
+### Quiz questions (Screen 4)
 ```js
-const TYPING_SPEED_MS = 38;   // how fast each character types
-const LINE_PAUSE_MS   = 600;  // pause between lines
+const qs = [
+  { q: "Who still wins most arguments?", opts: [ … ] },
+  …
+];
+```
+
+### Timeline memories (Screen 5)
+```html
+<div class="tl-item" id="tl0">
+  <div class="tl-label">The beginning</div>
+  <div class="tl-text">…</div>
+</div>
+```
+
+### Letter lines (Screen 6)
+```html
+<div class="lline" id="ll0">I'm not good at saying things out loud.</div>
+```
+
+### Colors
+All colors are CSS variables at the top of the `<style>` block:
+```css
+:root {
+  --purple: #a78bfa;
+  --rose: #f472b6;
+  --bg: #07060f;
+  …
+}
 ```
 
 ---
 
-## 📱 Design Notes
+## 🎨 Design
 
-- **Mobile-first** — designed for ~400px width
-- **No frameworks** — plain HTML + CSS + JS only
-- **Cinematic pacing** — intentionally slow and emotional
-- Screens transition with a smooth **fade-in** animation
+- **Aurora background** — 3 floating gradient orbs + 30 dust particles
+- **Typography** — Caveat (handwritten), DM Sans (clean), Instrument Serif (elegant)
+- **Chibi character** — custom SVG, animated walk-in + bird delivery scene
+- **Canvas confetti** — physics-based rectangles and circles
+- **Mobile-first** — max-width 420px, no horizontal scroll
