@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Surprise for Anushka</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- 1. Mystery Screen -->
+  <section id="screen-mystery" class="screen screen-mystery visible">
+    <div class="mystery-center">
+      <div class="mystery-text" id="mystery-text"></div>
+      <button class="mystery-arrow hidden" id="to-investigation" aria-label="Continue">&#8595;</button>
+    </div>
+  </section>
+
+  <!-- 2. Investigation (Case File) -->
+  <section id="screen-investigation" class="screen">
+    <div class="case-header">Case File #2026</div>
+    <div class="clues">
+      <div class="clue-card hidden">Clue 1: Loves chocolate</div>
+      <div class="clue-card hidden">Clue 2: Secret midnight bookworm</div>
+      <div class="clue-card hidden">Clue 3: Has a brother named Bickyy</div>
+    </div>
+    <button class="continue-btn" id="to-confession">Continue</button>
+  </section>
+
+  <!-- 3. Confession -->
+  <section id="screen-confession" class="screen">
+    <div class="center confession-text"></div>
+    <button class="continue-btn" id="to-quiz">Next</button>
+  </section>
+
+  <!-- 4. Quiz -->
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-q"></div>
+    <div class="quiz-options"></div>
+    <div class="quiz-feedback"></div>
+  </section>
+
+  <!-- 5. Timeline Memories -->
+  <section id="screen-timeline" class="screen">
+    <div class="timeline"></div>
+    <button class="continue-btn" id="to-letter">Next</button>
+  </section>
+
+  <!-- 6. Letter -->
+  <section id="screen-letter" class="screen">
+    <div class="center letter-message"></div>
+    <div class="letter-anim"></div>
+    <button class="continue-btn" id="to-locked">Continue</button>
+  </section>
+
+  <!-- 7. Locked Gift -->
+  <section id="screen-locked" class="screen">
+    <div class="center">
+      <div class="envelope" id="envelope">📩</div>
+      <div class="locked-msg"></div>
+    </div>
+  </section>
+
+  <!-- 8. Final -->
+  <section id="screen-final" class="screen">
+    <div class="confetti" id="confetti"></div>
+    <div class="center">
+      <h1>Happy Birthday Anushka!</h1>
+      <div class="final-msg"></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
