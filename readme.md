@@ -4,15 +4,50 @@ A cinematic, story-driven interactive birthday website built with pure **HTML, C
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run Locally
 
-No build step needed. Just open `index.html` in any modern browser:
+This is a **zero-dependency static site** — no Node, no npm, no build step.
 
+### Option 1 — Simplest (just open the file)
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/it24piyushyamjal/Testing.git
+   cd Testing
+   ```
+
+2. **Open `index.html` directly in your browser**
+   - **Windows:** double-click `index.html`, or right-click → *Open with* → Chrome / Edge / Firefox
+   - **macOS:** double-click `index.html`, or `open index.html` in Terminal
+   - **Linux:** `xdg-open index.html` in Terminal
+
+That's it. No server needed.
+
+---
+
+### Option 2 — Local dev server (recommended for VS Code users)
+
+If you use **VS Code**, install the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer):
+
+1. Open the `Testing` folder in VS Code
+2. Right-click `index.html` → **Open with Live Server**
+3. It opens at `http://127.0.0.1:5500/index.html` and auto-reloads on save
+
+---
+
+### Option 3 — One-liner with Python (no install needed)
+
+```bash
+# Python 3
+cd Testing
+python3 -m http.server 8080
+# then open http://localhost:8080 in your browser
 ```
-Double-click index.html
-```
 
-It works best on a **mobile screen** (or resize your browser to ~420px wide).
+---
+
+> 💡 **Best viewed** at a **mobile viewport** (~420 px wide).  
+> In Chrome/Edge: open DevTools (`F12`) → toggle device toolbar (`Ctrl+Shift+M`) → set width to 420.
 
 ---
 
