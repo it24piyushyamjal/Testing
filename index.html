@@ -687,11 +687,11 @@ function go(n){
 
 /* ── S1: MYSTERY ── */
 (function initS1(){
-  const delays = [800, 1400, 1900, 2400, 3000];
+  const delays = [1200, 2400, 3600, 4800, 6200];
   ['ml0','ml1','ml2','ml3','ml4'].forEach((id,i)=>{
     setTimeout(()=>document.getElementById(id).classList.add('up'), delays[i]);
   });
-  setTimeout(()=>document.getElementById('s1btn').classList.add('vis'), 3800);
+  setTimeout(()=>document.getElementById('s1btn').classList.add('vis'), 7600);
 })();
 
 /* ── S2: INVESTIGATION CHOICE ── */
